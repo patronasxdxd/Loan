@@ -11,6 +11,7 @@ import { Loader } from ".";
 // import jsBox from "../js/jsBox";
 import {Helmet} from "react-helmet";
 import { BoxContext } from "../context/BoxContext";
+import styles from "/Users/gilleszwijsen/loan/client/src/css/mystyle.module.css"
 
 
 const companyCommonStyles = "min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-gray-400 text-sm font-light text-white";
@@ -49,7 +50,9 @@ const TakeLoan = () => {
 
     <div>
     <div className="p-5 sm:w-96 w-full flex flex-col justify-start items-center blue-glassmorphism">
-     <h2 className="text-white text-base text-center mx-2"> Take Loan  </h2>
+    <div className={styles.shadowxd2}>
+     <h2 className="text-white text-3xl text-base text-center mx-2"> Take Loan  </h2>
+     </div>
     <Input placeholder="enter the loan number" name="count" type="number" handleChange={handleChangeFund} />
     <div className="h-[1px] w-full bg-gray-400 my-2" />
 
@@ -65,7 +68,7 @@ const TakeLoan = () => {
         <button
           type="button"
           onClick={handleSubmit}
-          className="text-white w-full mt-2 border-[1px] p-2 border-[#3d4f7c] hover:bg-[#3d4f7c] rounded-full cursor-pointer"
+          className="text-white w-full text-xl mt-2 border-[1px] p-2 border-[#3d4f7c] hover:bg-[#3d4f7c] rounded-full cursor-pointer"
         >
           Send now
         </button>

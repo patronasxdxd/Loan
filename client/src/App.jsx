@@ -7,7 +7,7 @@ const App = () => (
   <div className="min-h-screen">
     <div className="">
   
-      {/* <Navbar /> */}
+      <Navbar />
       <House/>
       <Welcome />
     <div className="flex justify-end gap-2 ">
@@ -16,6 +16,7 @@ const App = () => (
       <Fund/>
       <TakeLoan/>
     </div>
+    
     </div>
   </div>
 );
