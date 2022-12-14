@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
 
+import { loanContract , tokenContract} from "../utils/constants";
 
 import { contractABIToken,contractABILoan } from "../utils/constants";
 
@@ -10,12 +11,11 @@ export const BoxContext = React.createContext();
 const { ethereum } = window;
 let loaded = false;
 
-const createEthereumContract = () => {
+const createLoanContract = () => {
   const provider = new ethers.providers.Web3Provider(ethereum);
   const signer = provider.getSigner();
-  const boxContract = new ethers.Contract(DiamondAddress, contractABIBox, signer);
-  return boxContract;
-
+  const loanContractt = new ethers.Contract(loanContract, contractABILoan, signer);
+  return loanContractt;
 };
 
 
@@ -41,6 +41,8 @@ export const BoxContentProvider = ({ children }) => {
   const [voteTime, setvoteTime] = useState("");
   const [Blockchained, setBlockchained] = useState("");
 
+  const [createId, setCreateId] = useState("");
+
 
   const handleChange = (e, name) => {
     setformData((prevState) => ({ ...prevState, [name]: e.target.value }));
@@ -62,6 +64,53 @@ export const BoxContentProvider = ({ children }) => {
 
 
         console.log(feeAmount);
+
+
+        const transactionsContract = createLoanContract();
+
+
+
+          const Terms = {
+   
+
+                loanDaiAmount: loanAmount,
+                feeDaiAmount:feeAmount,
+                ethCollateralAmount:collAmount,
+               repayByTimestamp:timestamp
+           }
+
+          const create = await transactionsContract.create(Terms,tokenContract)   
+
+
+          setIsLoading(true);
+         const proposeReceipt = await create.wait(1)
+          setIsLoading(false);
+
+          let count = await transactionsContract.getCount();
+
+          
+          console.log(count-1);
+
+
+
+
+
+
+
+
+  //   var count = await transfer.getCount();
+   
+  //   count = count -1;
+
+
+
+
+
+
+
+
+
+        
 
         // const transactionsContract = createEthereumContract();
         // const parsedAmount = ethers.utils.parseEther(amount);

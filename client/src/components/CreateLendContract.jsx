@@ -43,11 +43,6 @@ const CreateLendContract = () => {
   };
 
  
-  
-
-
-  
-
   return (
     <div className="p-5 sm:w-96 w-full flex flex-col justify-start items-center blue-glassmorphism">
      <h2 className="text-white text-base text-center mx-2">Terms </h2>
