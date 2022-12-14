@@ -43,7 +43,7 @@ contract loan {
 
 
     modifier onlyInState(Loanstate expectedState) {
-        require(state == expectedState, "not allowed in this state");
+        require(loans[0].state == expectedState, "not allowed in this state");
         _;
     }
 
@@ -76,11 +76,11 @@ contract loan {
 
     function fundLoan() public onlyInState(Loanstate.CREATED) {
 
-        state = Loanstate.FUNDED;
+        loans[0].state = Loanstate.FUNDED;
         DAI.transferFrom(
             msg.sender,
             address(this),
-            terms.loanDaiAmount
+            loans[0].terms.loanDaiAmount
         );
 
     }
@@ -91,13 +91,13 @@ contract loan {
     payable
     onlyInState(Loanstate.FUNDED){
         require(
-            msg.value == terms.ethCollateralAmount,
+            msg.value == loans[0].terms.ethCollateralAmount,
             "invalid amount"
         );
 
-        borrower = payable(msg.sender);
-        state = Loanstate.TAKEN;
-        DAI.transfer(borrower,terms.loanDaiAmount);
+        loans[0].borrower = payable(msg.sender);
+        loans[0].state = Loanstate.TAKEN;
+        DAI.transfer(loans[0].borrower,loans[0].terms.loanDaiAmount);
 
     }
 
@@ -108,23 +108,23 @@ contract loan {
 //     }
 
     function repay() onlyInState(Loanstate.TAKEN) public{
-        require(msg.sender == borrower, "only owner");
+        require(msg.sender == loans[0].borrower, "only owner");
 
         DAI.transferFrom(
-            borrower,
-            lender,
-            terms.loanDaiAmount + terms.feeDaiAmount
+           loans[0].borrower,
+            loans[0].lender,
+            loans[0].terms.loanDaiAmount + loans[0].terms.feeDaiAmount
         );
 
-        selfdestruct(borrower);
+        selfdestruct(loans[0].borrower);
     }
 
     function liquidate() public onlyInState(Loanstate.TAKEN){
-        require(msg.sender == lender);
-        require(block.timestamp >= terms.repayByTimestamp, "cant before the date ");
+        require(msg.sender == loans[0].lender);
+        require(block.timestamp >= loans[0].terms.repayByTimestamp, "cant before the date ");
         
 
-        selfdestruct(lender);
+        selfdestruct(loans[0].lender);
      }
 
      function getState() public view returns (string memory) {
@@ -138,6 +138,7 @@ contract loan {
          }
          else return "state: taken";
      }
+
 
 
 }

@@ -74,10 +74,10 @@ export async function deployDiamond() {
 
      
     
-    // const approve = await patronasToken.approve(loan.address,10000);
-    // const fund = await transfer.fundLoan();
+    const approve = await patronasToken.approve(loan.address,10000);
+    const fund = await transfer.fundLoan();
 
-    // const takeALoanAndAcceptLoanTerms = await transfer.takeALoanAndAcceptLoanTerms({value:200});
+    const takeALoanAndAcceptLoanTerms = await transfer.takeALoanAndAcceptLoanTerms({value:200});
 
     const state = await transfer.getState();
     console.log(state);
