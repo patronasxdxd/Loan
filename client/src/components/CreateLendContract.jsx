@@ -28,8 +28,8 @@ const Input = ({ placeholder, name, type, value, handleChange }) => (
 );
 
 const CreateLendContract = () => {
-  const { currentAccount, connectWallet,  isLoading } = useContext(TransactionContext);
-  const {  formDataLoan,handleChange,create} = useContext(BoxContext);
+  const { currentAccount, connectWallet } = useContext(TransactionContext);
+  const {  formDataLoan,handleChange,create,isLoading,createId} = useContext(BoxContext);
 
 
   const handleSubmit = (e) => {
@@ -52,6 +52,16 @@ const CreateLendContract = () => {
     <Input placeholder="Enter repayTimestamp" name="timestamp" type="number" handleChange={handleChange} />
 
     <div className="h-[1px] w-full bg-gray-400 my-2" />
+
+    {createId != ""
+    ?
+    <h2 className="text-white text-base text-center mx-2">created a loan wit id: {createId} </h2>:""
+
+    
+    
+    }
+
+    
 
 
 

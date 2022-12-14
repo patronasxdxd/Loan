@@ -88,7 +88,7 @@ export const BoxContentProvider = ({ children }) => {
 
           let count = await transactionsContract.getCount();
 
-          
+          setCreateId(count-1);
           console.log(count-1);
 
 
@@ -516,7 +516,9 @@ export const BoxContentProvider = ({ children }) => {
         
         formDataLoan,
         handleChange,
-        create
+        create,
+        isLoading,
+        createId
 
       }}
     >
