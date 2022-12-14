@@ -6,6 +6,10 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 
 contract loan {
+
+
+    enum Loanstate {CREATED, FUNDED, TAKEN}
+
     struct Terms {
         uint256 loanDaiAmount;
         uint256 feeDaiAmount;
@@ -14,11 +18,27 @@ contract loan {
     }
 
     //make map
-    Terms public terms;
+    // Terms public terms;
 
-    enum Loanstate {CREATED, FUNDED, TAKEN}
+   // mapping (address => Terms) terms;
+
+    struct Loaning {
+
+        Terms terms;
+        address payable lender;
+        address payable borrower;
+        Loanstate state;
+    }
+
+
+
+   mapping (uint => Loaning) loans;
+
+    
+
+
     //make map
-    Loanstate public state;
+    // Loanstate public state;
 
 
 
@@ -27,9 +47,8 @@ contract loan {
         _;
     }
 
-    address payable public lender;
-    address payable public borrower;
-    address public daiAddress;
+    // address payable public lender;
+    // address payable public borrower;
 
     IERC20 private DAI;
      address public tokenaddress;
@@ -39,11 +58,20 @@ contract loan {
             tokenaddress = _token;
         }
 
+
+         Terms terms;
+        address payable lender;
+        address payable borrower;
+        Loanstate state;
+
     function create(Terms memory _terms, address _daiAdress) public {
-        terms = _terms;
-        daiAddress = _daiAdress;
-        lender = payable(msg.sender);
-        state = Loanstate.CREATED;
+
+        loans[0] = Loaning(_terms,payable(msg.sender),payable(msg.sender),Loanstate.CREATED);
+    
+        
+        // terms = _terms;
+        // lender = payable(msg.sender);
+        // state = Loanstate.CREATED;
     }
 
     function fundLoan() public onlyInState(Loanstate.CREATED) {
@@ -101,11 +129,11 @@ contract loan {
 
      function getState() public view returns (string memory) {
 
-         if (state == Loanstate.CREATED) {
+         if (loans[0].state == Loanstate.CREATED) {
              return "state: Created";
          }
 
-         if (state == Loanstate.FUNDED) {
+         if (loans[0].state == Loanstate.FUNDED) {
              return "state: Funded";
          }
          else return "state: taken";
