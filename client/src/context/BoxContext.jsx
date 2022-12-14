@@ -164,6 +164,38 @@ export const BoxContentProvider = ({ children }) => {
   }
 
 
+  const takeLoan = async () => {
+    try {
+      if (ethereum) {
+        const { count } = formDataCount;
+        const transactionsContract = createLoanContract();
+        // const EthtokenContract = createTokenContract();
+
+
+        //  const approve = await EthtokenContract.approve(loanContract,10000);
+
+        const fund = await transactionsContract.getState(count)   
+
+       console.log(fund);
+
+        const takeALoanAndAcceptLoanTerms = await transactionsContract.takeALoanAndAcceptLoanTerms(count,{value:1});
+
+          setIsLoading(true);
+         const fundReceipt = await takeALoanAndAcceptLoanTerms.wait(1)
+          setIsLoading(false);
+
+          
+
+      } else {
+        console.log("No ethereum object");
+      }
+    } catch (error) {
+      console.log(error);
+
+      throw new Error("No ethereum object");
+    }
+  };
+
 
   // const makeCards = async () => {
   //   loaded = true;
@@ -365,7 +397,8 @@ export const BoxContentProvider = ({ children }) => {
         getState,
         state,
         handleChangeState,
-        formDataState
+        formDataState,
+        takeLoan
 
       }}
     >

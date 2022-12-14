@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 contract loan {
 
  modifier onlyInState(Loanstate expectedState) {
-        require(loans[0].state == expectedState, "not allowed in this state");
+        require(loans[count].state == expectedState, "not allowed in this state");
         _;
     }
 
@@ -29,7 +29,7 @@ contract loan {
         Loanstate state;
     }
 
-    
+
    mapping (uint => Loaning) loans;
 
     uint public count =0;
