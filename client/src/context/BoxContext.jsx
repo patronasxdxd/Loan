@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
 
-import { contractABIBox, BoxFacet, GovenorContract, contractABIGovernor, DiamondAddress, contractABIGovToken, timeLockAddress, contractABITimeLock, GovernanceToken } from "../utils/constants";
-import { id } from "ethers/lib/utils";
+
+import { contractABIToken,contractABILoan } from "../utils/constants";
+
 
 export const BoxContext = React.createContext();
 
@@ -17,19 +18,6 @@ const createEthereumContract = () => {
 
 };
 
-const createGovenorToken = () => {
-  const provider = new ethers.providers.Web3Provider(ethereum);
-  const signer = provider.getSigner();
-  const govContract = new ethers.Contract(DiamondAddress, contractABIGovToken, signer);
-  return govContract;
-};
-
-const createGovernorContract = () => {
-  const provider = new ethers.providers.Web3Provider(ethereum);
-  const signer = provider.getSigner();
-  const govContract = new ethers.Contract(GovenorContract, contractABIGovernor, signer);
-  return govContract;
-};
 
 export const BoxContentProvider = ({ children }) => {
   const [formData, setformData] = useState({ target: "", values: "", calldatas: "", description: "" });
@@ -37,11 +25,8 @@ export const BoxContentProvider = ({ children }) => {
   const [execData, setExecData] = useState({ proposal: "" });
   const [structArray, setStructArray] = useState([]);
 
-
   const [isLoadingExecute, setIsLoadingExecute] = useState(false);
   const [isLoadingVote, setIsLoadingVote] = useState(false);
-
-
 
   const [currentAccount, setCurrentAccount] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -67,157 +52,157 @@ export const BoxContentProvider = ({ children }) => {
 
 
 
-  const makeCards = async () => {
-    loaded = true;
-    try {
-      if (ethereum) {
-        const transactionsContract = createEthereumContract();
+  // const makeCards = async () => {
+  //   loaded = true;
+  //   try {
+  //     if (ethereum) {
+  //       const transactionsContract = createEthereumContract();
 
-        const availableTransactions = await transactionsContract.getAllTransactions();
+  //       const availableTransactions = await transactionsContract.getAllTransactions();
 
-        const structuredTransactions = availableTransactions.map((transaction) => ({
-          // addressFrom: transaction.sender,
-          timestamp: new Date(transaction.timestamp.toNumber() * 1000).toLocaleString(),
-          message: transaction.value,
-          amount: transaction.amount.toNumber()
-        }));
+  //       const structuredTransactions = availableTransactions.map((transaction) => ({
+  //         // addressFrom: transaction.sender,
+  //         timestamp: new Date(transaction.timestamp.toNumber() * 1000).toLocaleString(),
+  //         message: transaction.value,
+  //         amount: transaction.amount.toNumber()
+  //       }));
 
-        //  console.log("here");
+  //       //  console.log("here");
 
-        setStructArray(structuredTransactions);
-      } else {
-        console.log("Ethereum is not present");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //       setStructArray(structuredTransactions);
+  //     } else {
+  //       console.log("Ethereum is not present");
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
-  const getAllTransactions = async () => {
+  // const getAllTransactions = async () => {
 
 
-    try {
-      if (ethereum) {
-        const transactionsContract = createEthereumContract();
+  //   try {
+  //     if (ethereum) {
+  //       const transactionsContract = createEthereumContract();
 
-        const availableTransactions = await transactionsContract.retrieve();
+  //       const availableTransactions = await transactionsContract.retrieve();
 
 
-        setboxValues(availableTransactions.toNumber());
-      } else {
-        console.log("Ethereum is not present");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const getProposalId = async () => {
+  //       setboxValues(availableTransactions.toNumber());
+  //     } else {
+  //       console.log("Ethereum is not present");
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+  // const getProposalId = async () => {
 
 
-    try {
-      if (ethereum) {
-        const transactionsContract = createEthereumContract();
-        const govContract = createGovernorContract();
+  //   try {
+  //     if (ethereum) {
+  //       const transactionsContract = createEthereumContract();
+  //       const govContract = createGovernorContract();
 
-        const availableTransactions = await transactionsContract.getProposal();
-        const state = await govContract.state(availableTransactions)
+  //       const availableTransactions = await transactionsContract.getProposal();
+  //       const state = await govContract.state(availableTransactions)
 
 
-        setProposalId(state);
+  //       setProposalId(state);
 
 
 
 
-      } else {
-        console.log("Ethereum is not present");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //     } else {
+  //       console.log("Ethereum is not present");
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
-  const checkSate = async () => {
+  // const checkSate = async () => {
 
 
-    try {
-      if (ethereum) {
-        console.log("xd");
+  //   try {
+  //     if (ethereum) {
+  //       console.log("xd");
 
 
 
 
 
-      } else {
-        console.log("Ethereum is not present");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //     } else {
+  //       console.log("Ethereum is not present");
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
-  const getCurrentProposal = async () => {
+  // const getCurrentProposal = async () => {
 
 
-    try {
-      if (ethereum) {
-        const boxContract = createEthereumContract();
+  //   try {
+  //     if (ethereum) {
+  //       const boxContract = createEthereumContract();
 
-        const availableTransactions = await boxContract.getProposal();
+  //       const availableTransactions = await boxContract.getProposal();
 
 
-        //setCurrentProposal(62568287157613061209260595334271840154113816132753167614645326);
+  //       //setCurrentProposal(62568287157613061209260595334271840154113816132753167614645326);
 
 
 
 
 
-      } else {
-        console.log("Ethereum is not present");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //     } else {
+  //       console.log("Ethereum is not present");
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
 
 
 
-  const checkIfWalletIsConnect = async () => {
-    try {
-      if (!ethereum) return alert("Please install MetaMask.");
+  // const checkIfWalletIsConnect = async () => {
+  //   try {
+  //     if (!ethereum) return alert("Please install MetaMask.");
 
-      const accounts = await ethereum.request({ method: "eth_accounts" });
+  //     const accounts = await ethereum.request({ method: "eth_accounts" });
 
-      if (accounts.length) {
-        setCurrentAccount(accounts[0]);
+  //     if (accounts.length) {
+  //       setCurrentAccount(accounts[0]);
 
-        if (!loaded) {
-          makeCards();
-        };
-        getAllTransactions();
-        getProposalId();
-        getCurrentProposal();
-        //checkSate();
-      } else {
-        console.log("No accounts found");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //       if (!loaded) {
+  //         makeCards();
+  //       };
+  //       getAllTransactions();
+  //       getProposalId();
+  //       getCurrentProposal();
+  //       //checkSate();
+  //     } else {
+  //       console.log("No accounts found");
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
-  checkIfWalletIsConnect();
+  // checkIfWalletIsConnect();
 
 
 
 
-  const execute = async () => {
-    try {
-      if (ethereum) {
+  // const execute = async () => {
+  //   try {
+  //     if (ethereum) {
 
-        const governor = createGovernorContract();
-        const boxContract = createEthereumContract();
-        const govenorToken = createGovenorToken();
+  //       const governor = createGovernorContract();
+  //       const boxContract = createEthereumContract();
+  //       const govenorToken = createGovenorToken();
 
 
 
@@ -225,163 +210,163 @@ export const BoxContentProvider = ({ children }) => {
 
 
 
-        console.log("executing...e")
-        console.log(await governor.votingPeriod());
+  //       console.log("executing...e")
+  //       console.log(await governor.votingPeriod());
 
-        // console.log(go)
-        const proposalState = await governor.state(boxContract.getProposal());
-        console.log(`Current Proposal States: ${proposalState}`);
+  //       // console.log(go)
+  //       const proposalState = await governor.state(boxContract.getProposal());
+  //       console.log(`Current Proposal States: ${proposalState}`);
 
 
 
-        let valueData = 0;
-        let descriptionData = "";
+  //       let valueData = 0;
+  //       let descriptionData = "";
 
-        const value = await boxContract.getAllTransactions();
-        const count = await boxContract.getTransactionCount();
-        if (count > 0) {
-          valueData = value[count - 1].amount.toNumber();
-          descriptionData = value[count - 1].value;
+  //       const value = await boxContract.getAllTransactions();
+  //       const count = await boxContract.getTransactionCount();
+  //       if (count > 0) {
+  //         valueData = value[count - 1].amount.toNumber();
+  //         descriptionData = value[count - 1].value;
 
-        }
+  //       }
 
 
 
-        const encodedFunctionCall = boxContract.interface.encodeFunctionData("store", [valueData])
-        console.log("part2");
-        console.log(valueData);
-        console.log(descriptionData);
+  //       const encodedFunctionCall = boxContract.interface.encodeFunctionData("store", [valueData])
+  //       console.log("part2");
+  //       console.log(valueData);
+  //       console.log(descriptionData);
 
 
 
 
-        const descriptionHash = ethers.utils.keccak256(ethers.utils.toUtf8Bytes(descriptionData))
-        console.log(descriptionHash)
+  //       const descriptionHash = ethers.utils.keccak256(ethers.utils.toUtf8Bytes(descriptionData))
+  //       console.log(descriptionHash)
 
 
 
-        if (proposalState == 4) {
-          console.log("status5")
-          console.log("Queueing...")
-          const queueTx = await governor.queue([DiamondAddress], [0], [encodedFunctionCall], descriptionHash)
-          setIsLoadingExecute(true);
+  //       if (proposalState == 4) {
+  //         console.log("status5")
+  //         console.log("Queueing...")
+  //         const queueTx = await governor.queue([DiamondAddress], [0], [encodedFunctionCall], descriptionHash)
+  //         setIsLoadingExecute(true);
 
-          await queueTx.wait(1);
-          setIsLoadingExecute(false);
+  //         await queueTx.wait(1);
+  //         setIsLoadingExecute(false);
 
-        }
+  //       }
 
-        if (proposalState == 5) {
+  //       if (proposalState == 5) {
 
-          const executeTx = await governor.execute(
-            [DiamondAddress],
-            [0],
-            [encodedFunctionCall],
-            descriptionHash
-          )
-          setIsLoadingExecute(true);
+  //         const executeTx = await governor.execute(
+  //           [DiamondAddress],
+  //           [0],
+  //           [encodedFunctionCall],
+  //           descriptionHash
+  //         )
+  //         setIsLoadingExecute(true);
 
-          await executeTx.wait(1)
-          setIsLoadingExecute(false);
-          console.log(`Box value: ${await boxContract.retrieve()}`)
+  //         await executeTx.wait(1)
+  //         setIsLoadingExecute(false);
+  //         console.log(`Box value: ${await boxContract.retrieve()}`)
 
-        }
+  //       }
 
 
 
 
-        //setvoteTime("");
+  //       //setvoteTime("");
 
 
 
 
-      } else {
-        console.log("Ethereum is not present");
-      }
-    } catch (error) {
-      console.log(error);
-    }
+  //     } else {
+  //       console.log("Ethereum is not present");
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
 
-  };
+  // };
 
 
 
-  const propose = async () => {
-    try {
-      if (ethereum) {
-        const { target, values, calldatas, description } = formData;
+  // const propose = async () => {
+  //   try {
+  //     if (ethereum) {
+  //       const { target, values, calldatas, description } = formData;
 
-        const governorContract = createGovernorContract();
-        const boxContract = createEthereumContract();
+  //       const governorContract = createGovernorContract();
+  //       const boxContract = createEthereumContract();
 
-        const encodedFunctionCall = boxContract.interface.encodeFunctionData(calldatas, [values]);
-        console.log(`Proposing ${calldatas} on ${boxContract.address} with ${values}`)
-        console.log(`Proposal Description:\n  ${description}`)
+  //       const encodedFunctionCall = boxContract.interface.encodeFunctionData(calldatas, [values]);
+  //       console.log(`Proposing ${calldatas} on ${boxContract.address} with ${values}`)
+  //       console.log(`Proposal Description:\n  ${description}`)
 
-        const proposeTx = await governorContract.propose(
-          [DiamondAddress],
-          [0],
-          [encodedFunctionCall],
-          description
-        )
+  //       const proposeTx = await governorContract.propose(
+  //         [DiamondAddress],
+  //         [0],
+  //         [encodedFunctionCall],
+  //         description
+  //       )
 
 
-        setIsLoading(true);
+  //       setIsLoading(true);
 
 
 
-        const proposeReceipt = await proposeTx.wait(1)
-        setIsLoading(false);
-        const proposalId = proposeReceipt.events[0].args.proposalId
-        console.log(`Proposed with proposal ID:\n  ${proposalId}`)
-        const proposalState = await governorContract.state(proposeReceipt.events[0].args.proposalId);
+  //       const proposeReceipt = await proposeTx.wait(1)
+  //       setIsLoading(false);
+  //       const proposalId = proposeReceipt.events[0].args.proposalId
+  //       console.log(`Proposed with proposal ID:\n  ${proposalId}`)
+  //       const proposalState = await governorContract.state(proposeReceipt.events[0].args.proposalId);
 
-        console.log(`Current Proposal States: ${proposalState}`);
-        const id = await boxContract.addProposalStruct(proposeReceipt.events[0].args.proposalId, values, description);
-        setIsLoading(true);
-        const addReceipt = await id.wait(1)
-        setIsLoading(false);
-      } else {
-        console.log("Ethereum is not present");
-      }
-    } catch (error) {
-      console.log(error);
-    }
+  //       console.log(`Current Proposal States: ${proposalState}`);
+  //       const id = await boxContract.addProposalStruct(proposeReceipt.events[0].args.proposalId, values, description);
+  //       setIsLoading(true);
+  //       const addReceipt = await id.wait(1)
+  //       setIsLoading(false);
+  //     } else {
+  //       console.log("Ethereum is not present");
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
 
-  };
+  // };
 
 
 
-  const vote = async () => {
-    try {
-      if (ethereum) {
-        const { values, reason } = voteData;
+  // const vote = async () => {
+  //   try {
+  //     if (ethereum) {
+  //       const { values, reason } = voteData;
 
-        const governor = createGovernorContract();
-        const boxContract = createEthereumContract();
+  //       const governor = createGovernorContract();
+  //       const boxContract = createEthereumContract();
 
-        // 0 = Against, 1 = For, 2 = Abstain for this example
-        console.log("Voting...")
-        const proposalState2 = await governor.state(boxContract.getProposal());
-        console.log(`Current Proposal State: ${proposalState2}`)
+  //       // 0 = Against, 1 = For, 2 = Abstain for this example
+  //       console.log("Voting...")
+  //       const proposalState2 = await governor.state(boxContract.getProposal());
+  //       console.log(`Current Proposal State: ${proposalState2}`)
 
-        const voteTx = await governor.castVoteWithReason(boxContract.getProposal(), values, reason)
-        setIsLoadingVote(true);
-        const voteTxReceipt = await voteTx.wait(1)
-        setIsLoadingVote(false);
+  //       const voteTx = await governor.castVoteWithReason(boxContract.getProposal(), values, reason)
+  //       setIsLoadingVote(true);
+  //       const voteTxReceipt = await voteTx.wait(1)
+  //       setIsLoadingVote(false);
 
 
 
 
-      } else {
-        console.log("Ethereum is not present");
-      }
-    } catch (error) {
-      console.log(error);
-      console.log("no vote yet")
-    }
+  //     } else {
+  //       console.log("Ethereum is not present");
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //     console.log("no vote yet")
+  //   }
 
-  };
+  // };
 
 
 
@@ -392,22 +377,22 @@ export const BoxContentProvider = ({ children }) => {
 
 
 
-  const checkIfProposalExists = async () => {
-    try {
+  // const checkIfProposalExists = async () => {
+  //   try {
 
 
-      if (ethereum) {
-        console.log("checking");
-        const boxContract = createEthereumContract();
-        const id = await boxContract.getProposal();
-        console.log(id);
-      }
-    } catch (error) {
-      console.log(error);
+  //     if (ethereum) {
+  //       console.log("checking");
+  //       const boxContract = createEthereumContract();
+  //       const id = await boxContract.getProposal();
+  //       console.log(id);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
 
-      throw new Error("No ethereum object");
-    }
-  };
+  //     throw new Error("No ethereum object");
+  //   }
+  // };
 
 
 
@@ -421,34 +406,16 @@ export const BoxContentProvider = ({ children }) => {
 
 
 
-  useEffect(() => {
-    checkIfProposalExists();
-    const interval = setInterval(() => getProposalId(), 1000);
-  }, [proposalId]);
+  // useEffect(() => {
+  //   checkIfProposalExists();
+  //   const interval = setInterval(() => getProposalId(), 1000);
+  // }, [proposalId]);
 
 
   return (
     <BoxContext.Provider
       value={{
-        boxvalues,
-        setboxValues,
-        handleChange,
-        formData,
-        currentAccount,
-        propose,
-        proposalId,
-        voteData,
-        handleChangeVote,
-        handleChangeExecute,
-        vote,
-        voteTime,
-        execute,
-        execData,
-        currentProposal,
-        isLoading,
-        isLoadingVote,
-        isLoadingExecute,
-        structArray
+       
 
       }}
     >

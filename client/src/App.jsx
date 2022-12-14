@@ -1,4 +1,4 @@
-import { Navbar, Welcome ,House} from "./components";
+import { Navbar, Welcome ,House,CreateLendContract} from "./components";
 import { CryptoCards, Button ,Select} from '@web3uikit/core';
 
 
@@ -10,7 +10,10 @@ const App = () => (
       {/* <Navbar /> */}
       <House/>
       <Welcome />
-    <div className="flex">
+    <div className="flex justify-end">
+
+      <CreateLendContract/>
+      
     {/* <Propose /> */}
     {/* <Vote /> */}
     {/* <Excecute /> */}

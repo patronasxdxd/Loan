@@ -49,15 +49,7 @@ const house = () => {
 
   return (
 
-    // <><Helmet>
-    //      <script src="../js/jsBox"></script>
-
-
-
-    
-    //   </Helmet>
-
-    < >
+    <>
     <body></body>
 
        <Helmet>

@@ -3,15 +3,15 @@ import ReactDOM from "react-dom";
 
 import App from "./App";
 import { TransactionsProvider } from "./context/TransactionContext";
-// import {BoxContentProvider} from "./context/BoxContext";
+import {BoxContentProvider} from "./context/BoxContext";
 import "./index.css";
 
 ReactDOM.render(
   <TransactionsProvider>
-    {/* <BoxContentProvider> */}
+    <BoxContentProvider>
     
     <App/>
-    {/* </BoxContentProvider> */}
+    </BoxContentProvider>
   </TransactionsProvider>,
   document.getElementById("root"),
 );
