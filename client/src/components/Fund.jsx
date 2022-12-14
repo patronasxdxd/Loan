@@ -29,7 +29,7 @@ const Input = ({ placeholder, name, type, value, handleChange }) => (
 
 const Fund = () => {
   const { currentAccount, connectWallet } = useContext(TransactionContext);
-  const {  formDataState,formDataCount,handleChange,fund,isLoading,createId,handleChangeFund,state,handleChangeState,getState} = useContext(BoxContext);
+  const {  formDataState,formDataCount,handleChange,fund,isLoadingFund,createId,handleChangeFund,state,handleChangeState,getState,funded} = useContext(BoxContext);
 
 
   const handleSubmit = (e) => {
@@ -67,9 +67,9 @@ const Fund = () => {
     
     
 
-    {createId != ""
+    {funded != ""
     ? <h2 className="text-white text-base text-center mx-2">succesfully funded! {createId} </h2>:""}
-    {isLoading
+    {isLoadingFund
       ? <Loader />
       : (
         <button
@@ -103,7 +103,7 @@ const Fund = () => {
 
     {state != ""
     ? <h2 className="text-white text-base text-center mx-2">the state is: {state} </h2>:""}
-    {isLoading
+    {isLoadingFund
       ? <Loader />
       : (
         <button

@@ -29,7 +29,7 @@ const Input = ({ placeholder, name, type, value, handleChange }) => (
 
 const TakeLoan = () => {
   const { currentAccount, connectWallet } = useContext(TransactionContext);
-  const {  formDataState,formDataCount,handleChange,fund,isLoading,createId,handleChangeFund,state,handleChangeState,getState,takeLoan} = useContext(BoxContext);
+  const {  formDataState,formDataCount,handleChange,fund,isLoadingTaken,createId,handleChangeFund,state,handleChangeState,getState,takeLoan,takenBool} = useContext(BoxContext);
 
 
   const handleSubmit = (e) => {
@@ -57,9 +57,9 @@ const TakeLoan = () => {
     
     
 
-    {createId != ""
+    {takenBool != ""
     ? <h2 className="text-white text-base text-center mx-2">succesfully Taken! {createId} </h2>:""}
-    {isLoading
+    {isLoadingTaken
       ? <Loader />
       : (
         <button

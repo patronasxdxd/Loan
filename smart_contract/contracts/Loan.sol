@@ -7,8 +7,9 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract loan {
 
- modifier onlyInState(Loanstate expectedState) {
-        require(loans[count].state == expectedState, "not allowed in this state");
+
+      modifier onlyInState(Loanstate expectedState, uint _count) {
+        require(loans[_count].state == expectedState, "not allowed in this state");
         _;
     }
 
@@ -36,6 +37,8 @@ contract loan {
     IERC20 private DAI;
      address public tokenaddress;
 
+
+
     constructor(address _token) public {
             DAI = IERC20(_token);
             tokenaddress = _token;
@@ -49,7 +52,7 @@ contract loan {
         return count++;
     }
 
-    function fundLoan(uint count) public onlyInState(Loanstate.CREATED) {
+    function fundLoan(uint count) public onlyInState(Loanstate.CREATED,count) {
 
         loans[count].state = Loanstate.FUNDED;
         DAI.transferFrom(
@@ -64,7 +67,7 @@ contract loan {
     function takeALoanAndAcceptLoanTerms(uint count)
     public
     payable
-    onlyInState(Loanstate.FUNDED){
+    onlyInState(Loanstate.FUNDED,count){
         require(
             msg.value == loans[count].terms.ethCollateralAmount,
             "invalid amount"
@@ -76,7 +79,7 @@ contract loan {
 
     }
 
-    function repay(uint count) onlyInState(Loanstate.TAKEN) public{
+    function repay(uint count) onlyInState(Loanstate.TAKEN,count) public{
         require(msg.sender == loans[count].borrower, "only owner");
 
         DAI.transferFrom(
@@ -88,7 +91,7 @@ contract loan {
         selfdestruct(loans[count].borrower);
     }
 
-    function liquidate(uint count) public onlyInState(Loanstate.TAKEN){
+    function liquidate(uint count) public onlyInState(Loanstate.TAKEN,count){
         require(msg.sender == loans[count].lender);
         require(block.timestamp >= loans[count].terms.repayByTimestamp, "cant before the date ");
         

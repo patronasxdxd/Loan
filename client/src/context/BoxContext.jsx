@@ -37,6 +37,11 @@ export const BoxContentProvider = ({ children }) => {
 
   const [isLoadingExecute, setIsLoadingExecute] = useState(false);
   const [isLoadingVote, setIsLoadingVote] = useState(false);
+  const [isLoadingFund, setIsLoadingFund] = useState(false);
+  const [isLoadingTaken, setILoadingTaken] = useState(false);
+
+  const [takenBool, settakenBool] = useState("");
+  const [funded, setFunded] = useState("");
 
   const [currentAccount, setCurrentAccount] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -119,17 +124,20 @@ export const BoxContentProvider = ({ children }) => {
         const EthtokenContract = createTokenContract();
          const approve = await EthtokenContract.approve(loanContract,10000);
 
-         setIsLoading(true);
+         setIsLoadingFund(true);
          const approveReceipt = await approve.wait(1)
-          setIsLoading(false);
+         setIsLoadingFund(false);
 
 
         const fund = await transactionsContract.fundLoan(count)   
 
 
-          setIsLoading(true);
+        setIsLoadingFund(true);
          const fundReceipt = await fund.wait(1)
-          setIsLoading(false);
+         setIsLoadingFund(false);
+
+
+          setFunded(1);
 
           
 
@@ -180,11 +188,12 @@ export const BoxContentProvider = ({ children }) => {
 
         const takeALoanAndAcceptLoanTerms = await transactionsContract.takeALoanAndAcceptLoanTerms(count,{value:1});
 
-          setIsLoading(true);
+          setILoadingTaken(true);
          const fundReceipt = await takeALoanAndAcceptLoanTerms.wait(1)
-          setIsLoading(false);
+          setILoadingTaken(false);
 
-          
+          settakenBool(1)
+
 
       } else {
         console.log("No ethereum object");
@@ -398,7 +407,11 @@ export const BoxContentProvider = ({ children }) => {
         state,
         handleChangeState,
         formDataState,
-        takeLoan
+        takeLoan,
+        isLoadingFund,
+        isLoadingTaken,
+        takenBool,
+        funded
 
       }}
     >
