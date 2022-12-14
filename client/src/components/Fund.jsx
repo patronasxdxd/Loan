@@ -27,29 +27,27 @@ const Input = ({ placeholder, name, type, value, handleChange }) => (
 
 );
 
-const CreateLendContract = () => {
+const Fund = () => {
   const { currentAccount, connectWallet } = useContext(TransactionContext);
-  const {  formDataLoan,handleChange,create,isLoading,createId} = useContext(BoxContext);
+  const {  formDataCount,handleChange,fund,isLoading,createId,handleChangeFund} = useContext(BoxContext);
 
 
   const handleSubmit = (e) => {
-    const { loanAmount, feeAmount, collAmount, timestamp } = formDataLoan;
+    const { count } = formDataCount;
 
     e.preventDefault();
 
-    if (!loanAmount || !feeAmount || !collAmount || !timestamp) return;
+    if (!count) return;
 
-    create();
+    fund();
   };
 
  
   return (
     <div className="p-5 sm:w-96 w-full flex flex-col justify-start items-center blue-glassmorphism">
      <h2 className="text-white text-base text-center mx-2">Terms </h2>
-    <Input placeholder="enter a loan amount" name="loanAmount" type="number" handleChange={handleChange} />
-    <Input placeholder="Enter a fee amount" name="feeAmount" type="number" handleChange={handleChange} />
-    <Input placeholder="Enter a collateral amount" name="collAmount" type="number" handleChange={handleChange} />
-    <Input placeholder="Enter repayTimestamp" name="timestamp" type="number" handleChange={handleChange} />
+    <Input placeholder="enter the loan number" name="count" type="number" handleChange={handleChangeFund} />
+  
 
     <div className="h-[1px] w-full bg-gray-400 my-2" />
 
@@ -72,4 +70,4 @@ const CreateLendContract = () => {
   );
 };
 
-export default CreateLendContract;
+export default Fund;

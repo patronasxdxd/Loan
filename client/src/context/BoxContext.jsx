@@ -18,13 +18,19 @@ const createLoanContract = () => {
   return loanContractt;
 };
 
-
+const createTokenContract = () => {
+  const provider = new ethers.providers.Web3Provider(ethereum);
+  const signer = provider.getSigner();
+  const tokenContractt = new ethers.Contract(tokenContract, contractABIToken, signer);
+  return tokenContractt;
+};
 
 
 
 export const BoxContentProvider = ({ children }) => {
   const [formDataLoan, setformData] = useState({ loanAmount: "", feeAmount: "", collAmount: "", timestamp: "" });
-  const [voteData, setvoteData] = useState({ proposal: "", values: "", reason: "" });
+  const [formDataCount, setformDataCount] = useState({ count: ""});
+
   const [execData, setExecData] = useState({ proposal: "" });
   const [structArray, setStructArray] = useState([]);
 
@@ -47,12 +53,10 @@ export const BoxContentProvider = ({ children }) => {
   const handleChange = (e, name) => {
     setformData((prevState) => ({ ...prevState, [name]: e.target.value }));
   };
-  const handleChangeExecute = (e, name) => {
-    setExecData((prevState) => ({ ...prevState, [name]: e.target.value }));
-  };
 
-  const handleChangeVote = (e, name) => {
-    setvoteData((prevState) => ({ ...prevState, [name]: e.target.value }));
+
+  const handleChangeFund = (e, name) => {
+    setformDataCount((prevState) => ({ ...prevState, [name]: e.target.value }));
   };
 
 
@@ -91,52 +95,46 @@ export const BoxContentProvider = ({ children }) => {
           setCreateId(count-1);
           console.log(count-1);
 
+      } else {
+        console.log("No ethereum object");
+      }
+    } catch (error) {
+      console.log(error);
+
+      throw new Error("No ethereum object");
+    }
+  };
+
+  const fund = async () => {
+    try {
+      if (ethereum) {
+        const { count } = formDataCount;
 
 
 
 
-
-
-
-  //   var count = await transfer.getCount();
-   
-  //   count = count -1;
+        const transactionsContract = createLoanContract();
+        const EthtokenContract = createTokenContract();
 
 
 
 
+         const approve = await EthtokenContract.approve(loanContract,10000);
+
+         setIsLoading(true);
+         const approveReceipt = await approve.wait(1)
+          setIsLoading(false);
 
 
+        const fund = await transactionsContract.fundLoan(count)   
 
 
+          setIsLoading(true);
+         const fundReceipt = await fund.wait(1)
+          setIsLoading(false);
 
-        
+          
 
-        // const transactionsContract = createEthereumContract();
-        // const parsedAmount = ethers.utils.parseEther(amount);
-
-        // await ethereum.request({
-        //   method: "eth_sendTransaction",
-        //   params: [{
-        //     from: currentAccount,
-        //     to: addressTo,
-        //     gas: "0x5208",
-        //     value: parsedAmount._hex,
-        //   }],
-        // });
-
-        // const transactionHash = await transactionsContract.addToBlockchain(addressTo, parsedAmount, message, keyword);
-
-        // setIsLoading(true);
-        // console.log(`Loading - ${transactionHash.hash}`);
-        // await transactionHash.wait();
-        // console.log(`Success - ${transactionHash.hash}`);
-        // setIsLoading(false);
-
-        // const transactionsCount = await transactionsContract.getTransactionCount();
-
-        // setTransactionCount(transactionsCount.toNumber());
-        // window.location.reload();
       } else {
         console.log("No ethereum object");
       }
@@ -294,180 +292,6 @@ export const BoxContentProvider = ({ children }) => {
 
 
 
-  // const execute = async () => {
-  //   try {
-  //     if (ethereum) {
-
-  //       const governor = createGovernorContract();
-  //       const boxContract = createEthereumContract();
-  //       const govenorToken = createGovenorToken();
-
-
-
-
-
-
-
-  //       console.log("executing...e")
-  //       console.log(await governor.votingPeriod());
-
-  //       // console.log(go)
-  //       const proposalState = await governor.state(boxContract.getProposal());
-  //       console.log(`Current Proposal States: ${proposalState}`);
-
-
-
-  //       let valueData = 0;
-  //       let descriptionData = "";
-
-  //       const value = await boxContract.getAllTransactions();
-  //       const count = await boxContract.getTransactionCount();
-  //       if (count > 0) {
-  //         valueData = value[count - 1].amount.toNumber();
-  //         descriptionData = value[count - 1].value;
-
-  //       }
-
-
-
-  //       const encodedFunctionCall = boxContract.interface.encodeFunctionData("store", [valueData])
-  //       console.log("part2");
-  //       console.log(valueData);
-  //       console.log(descriptionData);
-
-
-
-
-  //       const descriptionHash = ethers.utils.keccak256(ethers.utils.toUtf8Bytes(descriptionData))
-  //       console.log(descriptionHash)
-
-
-
-  //       if (proposalState == 4) {
-  //         console.log("status5")
-  //         console.log("Queueing...")
-  //         const queueTx = await governor.queue([DiamondAddress], [0], [encodedFunctionCall], descriptionHash)
-  //         setIsLoadingExecute(true);
-
-  //         await queueTx.wait(1);
-  //         setIsLoadingExecute(false);
-
-  //       }
-
-  //       if (proposalState == 5) {
-
-  //         const executeTx = await governor.execute(
-  //           [DiamondAddress],
-  //           [0],
-  //           [encodedFunctionCall],
-  //           descriptionHash
-  //         )
-  //         setIsLoadingExecute(true);
-
-  //         await executeTx.wait(1)
-  //         setIsLoadingExecute(false);
-  //         console.log(`Box value: ${await boxContract.retrieve()}`)
-
-  //       }
-
-
-
-
-  //       //setvoteTime("");
-
-
-
-
-  //     } else {
-  //       console.log("Ethereum is not present");
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-
-  // };
-
-
-
-  // const propose = async () => {
-  //   try {
-  //     if (ethereum) {
-  //       const { target, values, calldatas, description } = formData;
-
-  //       const governorContract = createGovernorContract();
-  //       const boxContract = createEthereumContract();
-
-  //       const encodedFunctionCall = boxContract.interface.encodeFunctionData(calldatas, [values]);
-  //       console.log(`Proposing ${calldatas} on ${boxContract.address} with ${values}`)
-  //       console.log(`Proposal Description:\n  ${description}`)
-
-  //       const proposeTx = await governorContract.propose(
-  //         [DiamondAddress],
-  //         [0],
-  //         [encodedFunctionCall],
-  //         description
-  //       )
-
-
-  //       setIsLoading(true);
-
-
-
-  //       const proposeReceipt = await proposeTx.wait(1)
-  //       setIsLoading(false);
-  //       const proposalId = proposeReceipt.events[0].args.proposalId
-  //       console.log(`Proposed with proposal ID:\n  ${proposalId}`)
-  //       const proposalState = await governorContract.state(proposeReceipt.events[0].args.proposalId);
-
-  //       console.log(`Current Proposal States: ${proposalState}`);
-  //       const id = await boxContract.addProposalStruct(proposeReceipt.events[0].args.proposalId, values, description);
-  //       setIsLoading(true);
-  //       const addReceipt = await id.wait(1)
-  //       setIsLoading(false);
-  //     } else {
-  //       console.log("Ethereum is not present");
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-
-  // };
-
-
-
-  // const vote = async () => {
-  //   try {
-  //     if (ethereum) {
-  //       const { values, reason } = voteData;
-
-  //       const governor = createGovernorContract();
-  //       const boxContract = createEthereumContract();
-
-  //       // 0 = Against, 1 = For, 2 = Abstain for this example
-  //       console.log("Voting...")
-  //       const proposalState2 = await governor.state(boxContract.getProposal());
-  //       console.log(`Current Proposal State: ${proposalState2}`)
-
-  //       const voteTx = await governor.castVoteWithReason(boxContract.getProposal(), values, reason)
-  //       setIsLoadingVote(true);
-  //       const voteTxReceipt = await voteTx.wait(1)
-  //       setIsLoadingVote(false);
-
-
-
-
-  //     } else {
-  //       console.log("Ethereum is not present");
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //     console.log("no vote yet")
-  //   }
-
-  // };
-
-
-
 
 
 
@@ -518,7 +342,9 @@ export const BoxContentProvider = ({ children }) => {
         handleChange,
         create,
         isLoading,
-        createId
+        createId,
+        formDataCount,
+        fund,handleChangeFund
 
       }}
     >

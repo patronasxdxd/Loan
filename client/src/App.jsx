@@ -1,4 +1,4 @@
-import { Navbar, Welcome ,House,CreateLendContract} from "./components";
+import { Navbar, Welcome ,House,CreateLendContract,Fund} from "./components";
 import { CryptoCards, Button ,Select} from '@web3uikit/core';
 
 
@@ -10,10 +10,12 @@ const App = () => (
       {/* <Navbar /> */}
       <House/>
       <Welcome />
-    <div className="flex justify-end">
+    <div className="flex justify-end gap-10">
 
       <CreateLendContract/>
+      <Fund/>
       
+
     {/* <Propose /> */}
     {/* <Vote /> */}
     {/* <Excecute /> */}
