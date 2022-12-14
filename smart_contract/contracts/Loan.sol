@@ -7,6 +7,10 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract loan {
 
+ modifier onlyInState(Loanstate expectedState) {
+        require(loans[0].state == expectedState, "not allowed in this state");
+        _;
+    }
 
     enum Loanstate {CREATED, FUNDED, TAKEN}
 
@@ -16,11 +20,6 @@ contract loan {
         uint256 ethCollateralAmount;
         uint256 repayByTimestamp;
     }
-
-    //make map
-    // Terms public terms;
-
-   // mapping (address => Terms) terms;
 
     struct Loaning {
 
@@ -34,22 +33,7 @@ contract loan {
 
    mapping (uint => Loaning) loans;
 
-    
-
-
-    //make map
-    // Loanstate public state;
-
-
-
-    modifier onlyInState(Loanstate expectedState) {
-        require(loans[0].state == expectedState, "not allowed in this state");
-        _;
-    }
-
-    // address payable public lender;
-    // address payable public borrower;
-
+    uint public count =0;
     IERC20 private DAI;
      address public tokenaddress;
 
@@ -59,45 +43,37 @@ contract loan {
         }
 
 
-         Terms terms;
-        address payable lender;
-        address payable borrower;
-        Loanstate state;
-
-    function create(Terms memory _terms, address _daiAdress) public {
-
-        loans[0] = Loaning(_terms,payable(msg.sender),payable(msg.sender),Loanstate.CREATED);
     
-        
-        // terms = _terms;
-        // lender = payable(msg.sender);
-        // state = Loanstate.CREATED;
+    function create(Terms memory _terms, address _daiAdress) public returns (uint) {
+
+        loans[count] = Loaning(_terms,payable(msg.sender),payable(msg.sender),Loanstate.CREATED);
+        return count++;
     }
 
-    function fundLoan() public onlyInState(Loanstate.CREATED) {
+    function fundLoan(uint count) public onlyInState(Loanstate.CREATED) {
 
-        loans[0].state = Loanstate.FUNDED;
+        loans[count].state = Loanstate.FUNDED;
         DAI.transferFrom(
             msg.sender,
             address(this),
-            loans[0].terms.loanDaiAmount
+            loans[count].terms.loanDaiAmount
         );
 
     }
 
 
-    function takeALoanAndAcceptLoanTerms()
+    function takeALoanAndAcceptLoanTerms(uint count)
     public
     payable
     onlyInState(Loanstate.FUNDED){
         require(
-            msg.value == loans[0].terms.ethCollateralAmount,
+            msg.value == loans[count].terms.ethCollateralAmount,
             "invalid amount"
         );
 
-        loans[0].borrower = payable(msg.sender);
-        loans[0].state = Loanstate.TAKEN;
-        DAI.transfer(loans[0].borrower,loans[0].terms.loanDaiAmount);
+        loans[count].borrower = payable(msg.sender);
+        loans[count].state = Loanstate.TAKEN;
+        DAI.transfer(loans[0].borrower,loans[count].terms.loanDaiAmount);
 
     }
 
@@ -107,37 +83,43 @@ contract loan {
 //         DAI.transferFrom(msg.sender, address(this), amount);
 //     }
 
-    function repay() onlyInState(Loanstate.TAKEN) public{
-        require(msg.sender == loans[0].borrower, "only owner");
+    function repay(uint count) onlyInState(Loanstate.TAKEN) public{
+        require(msg.sender == loans[count].borrower, "only owner");
 
         DAI.transferFrom(
-           loans[0].borrower,
-            loans[0].lender,
-            loans[0].terms.loanDaiAmount + loans[0].terms.feeDaiAmount
+           loans[count].borrower,
+            loans[count].lender,
+            loans[count].terms.loanDaiAmount + loans[count].terms.feeDaiAmount
         );
 
-        selfdestruct(loans[0].borrower);
+        selfdestruct(loans[count].borrower);
     }
 
-    function liquidate() public onlyInState(Loanstate.TAKEN){
-        require(msg.sender == loans[0].lender);
-        require(block.timestamp >= loans[0].terms.repayByTimestamp, "cant before the date ");
+    function liquidate(uint count) public onlyInState(Loanstate.TAKEN){
+        require(msg.sender == loans[count].lender);
+        require(block.timestamp >= loans[count].terms.repayByTimestamp, "cant before the date ");
         
 
-        selfdestruct(loans[0].lender);
+        selfdestruct(loans[count].lender);
      }
 
-     function getState() public view returns (string memory) {
+     function getState(uint count) public view returns (string memory) {
 
-         if (loans[0].state == Loanstate.CREATED) {
+         if (loans[count].state == Loanstate.CREATED) {
              return "state: Created";
          }
 
-         if (loans[0].state == Loanstate.FUNDED) {
+         if (loans[count].state == Loanstate.FUNDED) {
              return "state: Funded";
          }
          else return "state: taken";
      }
+
+      function getCount() public view returns (uint) {
+
+       return count;
+     }
+
 
 
 

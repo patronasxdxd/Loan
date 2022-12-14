@@ -34,34 +34,49 @@ export type TermsStructOutput = [BigNumber, BigNumber, BigNumber, BigNumber] & {
 
 export interface LoanInterface extends utils.Interface {
   functions: {
+    "count()": FunctionFragment;
     "create((uint256,uint256,uint256,uint256),address)": FunctionFragment;
-    "fundLoan()": FunctionFragment;
-    "getState()": FunctionFragment;
-    "liquidate()": FunctionFragment;
-    "repay()": FunctionFragment;
-    "takeALoanAndAcceptLoanTerms()": FunctionFragment;
+    "fundLoan(uint256)": FunctionFragment;
+    "getCount()": FunctionFragment;
+    "getState(uint256)": FunctionFragment;
+    "liquidate(uint256)": FunctionFragment;
+    "repay(uint256)": FunctionFragment;
+    "takeALoanAndAcceptLoanTerms(uint256)": FunctionFragment;
     "tokenaddress()": FunctionFragment;
   };
 
+  encodeFunctionData(functionFragment: "count", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "create",
     values: [TermsStruct, string]
   ): string;
-  encodeFunctionData(functionFragment: "fundLoan", values?: undefined): string;
-  encodeFunctionData(functionFragment: "getState", values?: undefined): string;
-  encodeFunctionData(functionFragment: "liquidate", values?: undefined): string;
-  encodeFunctionData(functionFragment: "repay", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "fundLoan",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(functionFragment: "getCount", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "getState",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "liquidate",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(functionFragment: "repay", values: [BigNumberish]): string;
   encodeFunctionData(
     functionFragment: "takeALoanAndAcceptLoanTerms",
-    values?: undefined
+    values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "tokenaddress",
     values?: undefined
   ): string;
 
+  decodeFunctionResult(functionFragment: "count", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "create", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "fundLoan", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getCount", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getState", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "liquidate", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "repay", data: BytesLike): Result;
@@ -104,6 +119,8 @@ export interface Loan extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
+    count(overrides?: CallOverrides): Promise<[BigNumber]>;
+
     create(
       _terms: TermsStruct,
       _daiAdress: string,
@@ -111,25 +128,33 @@ export interface Loan extends BaseContract {
     ): Promise<ContractTransaction>;
 
     fundLoan(
+      count: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    getState(overrides?: CallOverrides): Promise<[string]>;
+    getCount(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    getState(count: BigNumberish, overrides?: CallOverrides): Promise<[string]>;
 
     liquidate(
+      count: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     repay(
+      count: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     takeALoanAndAcceptLoanTerms(
+      count: BigNumberish,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     tokenaddress(overrides?: CallOverrides): Promise<[string]>;
   };
+
+  count(overrides?: CallOverrides): Promise<BigNumber>;
 
   create(
     _terms: TermsStruct,
@@ -138,41 +163,54 @@ export interface Loan extends BaseContract {
   ): Promise<ContractTransaction>;
 
   fundLoan(
+    count: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  getState(overrides?: CallOverrides): Promise<string>;
+  getCount(overrides?: CallOverrides): Promise<BigNumber>;
+
+  getState(count: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
   liquidate(
+    count: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   repay(
+    count: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   takeALoanAndAcceptLoanTerms(
+    count: BigNumberish,
     overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   tokenaddress(overrides?: CallOverrides): Promise<string>;
 
   callStatic: {
+    count(overrides?: CallOverrides): Promise<BigNumber>;
+
     create(
       _terms: TermsStruct,
       _daiAdress: string,
       overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    fundLoan(count: BigNumberish, overrides?: CallOverrides): Promise<void>;
+
+    getCount(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getState(count: BigNumberish, overrides?: CallOverrides): Promise<string>;
+
+    liquidate(count: BigNumberish, overrides?: CallOverrides): Promise<void>;
+
+    repay(count: BigNumberish, overrides?: CallOverrides): Promise<void>;
+
+    takeALoanAndAcceptLoanTerms(
+      count: BigNumberish,
+      overrides?: CallOverrides
     ): Promise<void>;
-
-    fundLoan(overrides?: CallOverrides): Promise<void>;
-
-    getState(overrides?: CallOverrides): Promise<string>;
-
-    liquidate(overrides?: CallOverrides): Promise<void>;
-
-    repay(overrides?: CallOverrides): Promise<void>;
-
-    takeALoanAndAcceptLoanTerms(overrides?: CallOverrides): Promise<void>;
 
     tokenaddress(overrides?: CallOverrides): Promise<string>;
   };
@@ -180,6 +218,8 @@ export interface Loan extends BaseContract {
   filters: {};
 
   estimateGas: {
+    count(overrides?: CallOverrides): Promise<BigNumber>;
+
     create(
       _terms: TermsStruct,
       _daiAdress: string,
@@ -187,20 +227,29 @@ export interface Loan extends BaseContract {
     ): Promise<BigNumber>;
 
     fundLoan(
+      count: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    getState(overrides?: CallOverrides): Promise<BigNumber>;
+    getCount(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getState(
+      count: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     liquidate(
+      count: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     repay(
+      count: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     takeALoanAndAcceptLoanTerms(
+      count: BigNumberish,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -208,6 +257,8 @@ export interface Loan extends BaseContract {
   };
 
   populateTransaction: {
+    count(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     create(
       _terms: TermsStruct,
       _daiAdress: string,
@@ -215,20 +266,29 @@ export interface Loan extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     fundLoan(
+      count: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    getState(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    getCount(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getState(
+      count: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     liquidate(
+      count: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     repay(
+      count: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     takeALoanAndAcceptLoanTerms(
+      count: BigNumberish,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

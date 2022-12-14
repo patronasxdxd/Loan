@@ -70,25 +70,20 @@ export async function deployDiamond() {
         "loan",
         loan.address
       )) as loan;
-    const create = await transfer.create(Terms,patronasToken.address)
+    const create = await transfer.create(Terms,patronasToken.address)   
 
-     
+
+    var count = await transfer.getCount();
+   
+    count = count -1;
     
     const approve = await patronasToken.approve(loan.address,10000);
-    const fund = await transfer.fundLoan();
+    const fund = await transfer.fundLoan(count);
 
-    const takeALoanAndAcceptLoanTerms = await transfer.takeALoanAndAcceptLoanTerms({value:200});
+    const takeALoanAndAcceptLoanTerms = await transfer.takeALoanAndAcceptLoanTerms(count,{value:200});
 
-    const state = await transfer.getState();
+    const state = await transfer.getState(count);
     console.log(state);
-
-
-
-    // const repay = await transfer.repay();
-
-    // console.log("contract is destroyed....");
-
-
 
 }
 
