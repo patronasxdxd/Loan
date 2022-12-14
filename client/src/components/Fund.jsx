@@ -29,7 +29,7 @@ const Input = ({ placeholder, name, type, value, handleChange }) => (
 
 const Fund = () => {
   const { currentAccount, connectWallet } = useContext(TransactionContext);
-  const {  formDataCount,handleChange,fund,isLoading,createId,handleChangeFund} = useContext(BoxContext);
+  const {  formDataState,formDataCount,handleChange,fund,isLoading,createId,handleChangeFund,state,handleChangeState,getState} = useContext(BoxContext);
 
 
   const handleSubmit = (e) => {
@@ -42,17 +42,31 @@ const Fund = () => {
     fund();
   };
 
+  const handleSubmitState = (e) => {
+    const { count } = formDataState;
+
+    e.preventDefault();
+
+    if (!count) return;
+
+    getState();
+  };
+
  
   return (
     <div className="p-5 sm:w-96 w-full flex flex-col justify-start items-center blue-glassmorphism">
-     <h2 className="text-white text-base text-center mx-2">Terms </h2>
+     <h2 className="text-white text-base text-center mx-2">Fund  </h2>
     <Input placeholder="enter the loan number" name="count" type="number" handleChange={handleChangeFund} />
   
 
     <div className="h-[1px] w-full bg-gray-400 my-2" />
 
+    
+    
+    
+
     {createId != ""
-    ? <h2 className="text-white text-base text-center mx-2">created a loan wit id: {createId} </h2>:""}
+    ? <h2 className="text-white text-base text-center mx-2">succesfully funded! {createId} </h2>:""}
     {isLoading
       ? <Loader />
       : (
@@ -65,8 +79,44 @@ const Fund = () => {
         </button>
       )}
 
+      
+
+
+
+<br></br>
+<br></br>
+
+<h2 className="text-white text-base text-center mx-2">GetState </h2>
+    <Input placeholder="enter the loan number" name="count" type="number" handleChange={handleChangeState} />
+  
+
+    <div className="h-[1px] w-full bg-gray-400 my-2" />
+
+    
+    
+    
+
+    {state != ""
+    ? <h2 className="text-white text-base text-center mx-2">the state is: {state} </h2>:""}
+    {isLoading
+      ? <Loader />
+      : (
+        <button
+          type="button"
+          onClick={handleSubmitState}
+          className="text-white w-full mt-2 border-[1px] p-2 border-[#3d4f7c] hover:bg-[#3d4f7c] rounded-full cursor-pointer"
+        >
+          Send now
+        </button>
+      )}
+
+
+      
+
 
   </div>
+
+  
   );
 };
 

@@ -30,6 +30,7 @@ const createTokenContract = () => {
 export const BoxContentProvider = ({ children }) => {
   const [formDataLoan, setformData] = useState({ loanAmount: "", feeAmount: "", collAmount: "", timestamp: "" });
   const [formDataCount, setformDataCount] = useState({ count: ""});
+  const [formDataState, setformDataState] = useState({Count: ""});
 
   const [execData, setExecData] = useState({ proposal: "" });
   const [structArray, setStructArray] = useState([]);
@@ -46,6 +47,7 @@ export const BoxContentProvider = ({ children }) => {
   const [currentProposal, setCurrentProposal] = useState([]);
   const [voteTime, setvoteTime] = useState("");
   const [Blockchained, setBlockchained] = useState("");
+  const [state, setState] = useState("");
 
   const [createId, setCreateId] = useState("");
 
@@ -59,6 +61,10 @@ export const BoxContentProvider = ({ children }) => {
     setformDataCount((prevState) => ({ ...prevState, [name]: e.target.value }));
   };
 
+
+  const handleChangeState = (e, name) => {
+    setformDataState((prevState) => ({ ...prevState, [name]: e.target.value }));
+  };
 
 
   const create = async () => {
@@ -109,16 +115,8 @@ export const BoxContentProvider = ({ children }) => {
     try {
       if (ethereum) {
         const { count } = formDataCount;
-
-
-
-
         const transactionsContract = createLoanContract();
         const EthtokenContract = createTokenContract();
-
-
-
-
          const approve = await EthtokenContract.approve(loanContract,10000);
 
          setIsLoading(true);
@@ -144,7 +142,26 @@ export const BoxContentProvider = ({ children }) => {
       throw new Error("No ethereum object");
     }
   };
+  
 
+  const getState = async () => {
+
+    const { count } = formDataState;
+
+
+    const transactionsContract = createLoanContract();
+
+
+    const fund = await transactionsContract.getState(count)   
+
+    console.log(fund);
+
+    setState(fund);
+
+
+
+
+  }
 
 
 
@@ -344,7 +361,11 @@ export const BoxContentProvider = ({ children }) => {
         isLoading,
         createId,
         formDataCount,
-        fund,handleChangeFund
+        fund,handleChangeFund,
+        getState,
+        state,
+        handleChangeState,
+        formDataState
 
       }}
     >
