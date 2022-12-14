@@ -30,11 +30,10 @@ import {loan} from "../contracts/loan"
 
 
 
-export async function deployDiamond() {
+export async function deployLoan() {
 
   const accounts = await ethers.getSigners();
   const contractOwner = accounts[0];
-
 
   const PatronasToken = await ethers.getContractFactory("PatronasToken");
   const patronasToken = await PatronasToken.deploy();
@@ -52,43 +51,40 @@ export async function deployDiamond() {
   await loan.deployed();
   console.log("loan deployed:", loan.address);
 
-  const Terms = {
+  // const Terms = {
    
 
-        loanDaiAmount:200,
-         feeDaiAmount:200,
-         ethCollateralAmount:200,
-         repayByTimestamp:200
-  }
+  //       loanDaiAmount:200,
+  //        feeDaiAmount:200,
+  //        ethCollateralAmount:200,
+  //        repayByTimestamp:200
+  // }
 
 
-  // const xdd21 = await xd.mint(loan.address,100000)
-  // const xdd211 = await xd.mint(patronasToken.address,100000)
+
+  // const transfer = (await ethers.getContractAt(
+  //       "loan",
+  //       loan.address
+  //     )) as loan;
+  //   const create = await transfer.create(Terms,patronasToken.address)   
 
 
-  const transfer = (await ethers.getContractAt(
-        "loan",
-        loan.address
-      )) as loan;
-    const create = await transfer.create(Terms,patronasToken.address)   
-
-
-    var count = await transfer.getCount();
+  //   var count = await transfer.getCount();
    
-    count = count -1;
+  //   count = count -1;
     
-    const approve = await patronasToken.approve(loan.address,10000);
-    const fund = await transfer.fundLoan(count);
+  //   const approve = await patronasToken.approve(loan.address,10000);
+  //   const fund = await transfer.fundLoan(count);
 
-    const takeALoanAndAcceptLoanTerms = await transfer.takeALoanAndAcceptLoanTerms(count,{value:200});
+  //   const takeALoanAndAcceptLoanTerms = await transfer.takeALoanAndAcceptLoanTerms(count,{value:200});
 
-    const state = await transfer.getState(count);
-    console.log(state);
+  //   const state = await transfer.getState(count);
+  //   console.log(state);
 
 }
 
 if (require.main === module) {
-  deployDiamond()
+  deployLoan()
     .then(() => process.exit(0))
     .catch((error) => {
       console.error(error);
@@ -96,4 +92,4 @@ if (require.main === module) {
     });
 }
 
-exports.deployDiamond = deployDiamond;
+exports.deployLoan = deployLoan;

@@ -1,4 +1,4 @@
-import { Navbar, Welcome ,Box,Vote,Propose,Excecute,House} from "./components";
+import { Navbar, Welcome ,House} from "./components";
 import { CryptoCards, Button ,Select} from '@web3uikit/core';
 
 

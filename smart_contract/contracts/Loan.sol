@@ -29,8 +29,7 @@ contract loan {
         Loanstate state;
     }
 
-
-
+    
    mapping (uint => Loaning) loans;
 
     uint public count =0;
@@ -76,12 +75,6 @@ contract loan {
         DAI.transfer(loans[0].borrower,loans[count].terms.loanDaiAmount);
 
     }
-
-
-//  function depositWithPermit(uint amount, uint deadline, uint8 v, bytes32 r, bytes32 s) external {
-//         DAI.permit(msg.sender, address(this), amount, deadline, v, r, s);
-//         DAI.transferFrom(msg.sender, address(this), amount);
-//     }
 
     function repay(uint count) onlyInState(Loanstate.TAKEN) public{
         require(msg.sender == loans[count].borrower, "only owner");
