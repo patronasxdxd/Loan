@@ -19,8 +19,11 @@ const createEthereumContract = () => {
 };
 
 
+
+
+
 export const BoxContentProvider = ({ children }) => {
-  const [formData, setformData] = useState({ target: "", values: "", calldatas: "", description: "" });
+  const [formDataLoan, setformData] = useState({ loanAmount: "", feeAmount: "", collAmount: "", timestamp: "" });
   const [voteData, setvoteData] = useState({ proposal: "", values: "", reason: "" });
   const [execData, setExecData] = useState({ proposal: "" });
   const [structArray, setStructArray] = useState([]);
@@ -49,6 +52,52 @@ export const BoxContentProvider = ({ children }) => {
   const handleChangeVote = (e, name) => {
     setvoteData((prevState) => ({ ...prevState, [name]: e.target.value }));
   };
+
+
+
+  const create = async () => {
+    try {
+      if (ethereum) {
+        const { loanAmount, feeAmount, collAmount, timestamp } = formDataLoan;
+
+
+        console.log(feeAmount);
+
+        // const transactionsContract = createEthereumContract();
+        // const parsedAmount = ethers.utils.parseEther(amount);
+
+        // await ethereum.request({
+        //   method: "eth_sendTransaction",
+        //   params: [{
+        //     from: currentAccount,
+        //     to: addressTo,
+        //     gas: "0x5208",
+        //     value: parsedAmount._hex,
+        //   }],
+        // });
+
+        // const transactionHash = await transactionsContract.addToBlockchain(addressTo, parsedAmount, message, keyword);
+
+        // setIsLoading(true);
+        // console.log(`Loading - ${transactionHash.hash}`);
+        // await transactionHash.wait();
+        // console.log(`Success - ${transactionHash.hash}`);
+        // setIsLoading(false);
+
+        // const transactionsCount = await transactionsContract.getTransactionCount();
+
+        // setTransactionCount(transactionsCount.toNumber());
+        // window.location.reload();
+      } else {
+        console.log("No ethereum object");
+      }
+    } catch (error) {
+      console.log(error);
+
+      throw new Error("No ethereum object");
+    }
+  };
+
 
 
 
@@ -415,7 +464,10 @@ export const BoxContentProvider = ({ children }) => {
   return (
     <BoxContext.Provider
       value={{
-       
+        
+        formDataLoan,
+        handleChange,
+        create
 
       }}
     >

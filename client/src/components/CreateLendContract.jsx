@@ -28,8 +28,8 @@ const Input = ({ placeholder, name, type, value, handleChange }) => (
 );
 
 const CreateLendContract = () => {
-  const { currentAccount, connectWallet, handleChange, sendTransaction,  isLoading } = useContext(TransactionContext);
-  const {  formDataLoan } = useContext(BoxContext);
+  const { currentAccount, connectWallet,  isLoading } = useContext(TransactionContext);
+  const {  formDataLoan,handleChange,create} = useContext(BoxContext);
 
 
   const handleSubmit = (e) => {
@@ -39,7 +39,7 @@ const CreateLendContract = () => {
 
     if (!loanAmount || !feeAmount || !collAmount || !timestamp) return;
 
-    sendTransaction();
+    create();
   };
 
  

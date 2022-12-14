@@ -139,7 +139,7 @@ export const TransactionsProvider = ({ children }) => {
   //     throw new Error("No ethereum object");
   //   }
   // };
-
+  
   useEffect(() => {
     checkIfWalletIsConnect();
     // checkIfTransactionsExists();
@@ -154,7 +154,7 @@ export const TransactionsProvider = ({ children }) => {
         currentAccount,
         // isLoading,
         // sendTransaction,
-        // handleChange,
+        handleChange,
         // formData,
       }}
     >
