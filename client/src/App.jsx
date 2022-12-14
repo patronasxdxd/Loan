@@ -1,28 +1,22 @@
-import { Navbar, Welcome ,House,CreateLendContract,Fund} from "./components";
+import { Navbar, Welcome ,House,CreateLendContract,Fund,TakeLoan} from "./components";
 import { CryptoCards, Button ,Select} from '@web3uikit/core';
 
 
 const App = () => (
   
   <div className="min-h-screen">
-    <div className="gradient-bg-welcome">
+    <div className="">
   
       {/* <Navbar /> */}
       <House/>
       <Welcome />
-    <div className="flex justify-end gap-10">
+    <div className="flex justify-end gap-2 ">
 
       <CreateLendContract/>
       <Fund/>
-      
-
-    {/* <Propose /> */}
-    {/* <Vote /> */}
-    {/* <Excecute /> */}
+      <TakeLoan/>
     </div>
-    {/* <Box /> */}
     </div>
-
   </div>
 );
 

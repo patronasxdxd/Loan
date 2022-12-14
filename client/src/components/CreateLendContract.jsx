@@ -54,7 +54,7 @@ const CreateLendContract = () => {
     <div className="h-[1px] w-full bg-gray-400 my-2" />
 
     {createId != ""
-    ? <h2 className="text-white text-base text-center mx-2">created a loan wit id: {createId} </h2>:""}
+    ? <h2 className="text-base text-center mx-2">created a loan wit id: {createId} </h2>:""}
     {isLoading
       ? <Loader />
       : (

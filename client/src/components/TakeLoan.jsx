@@ -86,8 +86,8 @@ const Fund = () => {
 
 </div>
 
-
 <br></br>
+
 <div className="p-5 sm:w-96 w-full flex flex-col justify-start items-center blue-glassmorphism">
 
 
