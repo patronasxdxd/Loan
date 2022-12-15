@@ -2,8 +2,8 @@
 import abiToken from "./PatronasToken.json";
 import abiLoan from "./loan.json";
 
-export const tokenContract = "0x5aAE5AC06703fC6e2DD4AD4eeAae442117E19C36"
-export const loanContract = "0xc5a145b3cA048E4a71900026141E2c10a6962405"
+export const tokenContract = "0x0eC0D803A19722F2d345f6B025484ca71f444fb2"
+export const loanContract = "0x86a9b228FFdf61AB37beF99eEe9d2477134269f0"
 
 
 export const contractABIToken = abiToken.abi;

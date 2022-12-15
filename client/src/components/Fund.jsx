@@ -81,7 +81,7 @@ const Fund = () => {
           onClick={handleSubmit}
           className="text-white text-xl w-full mt-2 border-[1px] p-2 border-[#3d4f7c] hover:bg-[#3d4f7c] rounded-full cursor-pointer"
         >
-          Send now
+          Fund
         </button>
       )}
 
@@ -96,7 +96,7 @@ const Fund = () => {
 
 
 <div className={styles.shadowxd2}>
-<h2 className="text-white text-3xl text-base text-center mx-2">GetState </h2>
+<h2 className="text-white text-3xl text-base text-center mx-2">Get Current State </h2>
 </div>
     <Input placeholder="enter the loan number" name="count" type="number" handleChange={handleChangeState} />
   
@@ -117,7 +117,7 @@ const Fund = () => {
           onClick={handleSubmitState}
           className="text-white text-xl w-full mt-2 border-[1px] p-2 border-[#3d4f7c] hover:bg-[#3d4f7c] rounded-full cursor-pointer"
         >
-          Send now
+          Get State
         </button>
       )}
 

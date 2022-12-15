@@ -32,6 +32,7 @@ export const BoxContentProvider = ({ children }) => {
   const [formDataCount, setformDataCount] = useState({ count: ""});
   const [formDataState, setformDataState] = useState({Count: ""});
 
+  const [received, setReceived] = useState("");
   const [execData, setExecData] = useState({ proposal: "" });
   const [structArray, setStructArray] = useState([]);
 
@@ -116,12 +117,41 @@ export const BoxContentProvider = ({ children }) => {
     }
   };
 
+  const Mint = async () => {
+    try {
+      if (ethereum) {
+
+        const EthtokenContract = createTokenContract();
+
+        const accounts = await ethereum.request({ method: "eth_accounts" });
+
+
+        const transfer = await EthtokenContract.mint(accounts[0],1)
+        transfer.wait(1);
+        setReceived(1);
+
+
+  } else {
+    console.log("No ethereum object");
+  }
+} catch (error) {
+  console.log(error);
+
+  throw new Error("No ethereum object");
+
+
+};
+  };
+
+
   const fund = async () => {
     try {
       if (ethereum) {
         const { count } = formDataCount;
         const transactionsContract = createLoanContract();
         const EthtokenContract = createTokenContract();
+
+     
          const approve = await EthtokenContract.approve(loanContract,10000);
 
          setIsLoadingFund(true);
@@ -333,9 +363,9 @@ export const BoxContentProvider = ({ children }) => {
   //       if (!loaded) {
   //         makeCards();
   //       };
-  //       getAllTransactions();
-  //       getProposalId();
-  //       getCurrentProposal();
+  //       // getAllTransactions();
+  //       // getProposalId();
+  //       // getCurrentProposal();
   //       //checkSate();
   //     } else {
   //       console.log("No accounts found");
@@ -411,7 +441,9 @@ export const BoxContentProvider = ({ children }) => {
         isLoadingFund,
         isLoadingTaken,
         takenBool,
-        funded
+        funded,
+        Mint,
+        received
 
       }}
     >

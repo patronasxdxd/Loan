@@ -11,11 +11,13 @@ import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 //removed math
 contract PatronasToken is ERC20, ERC20Burnable, Ownable {
 
+    uint public constant mintPrice = (4 ether/10);
+
     constructor() public ERC20("Loan", "PAT") {
         _mint(msg.sender, 10000000000);
     }
 
-    function mint(address account, uint256 amount) public onlyOwner {
+    function mint(address account, uint256 amount) external{
         _mint(account, amount);
     }
     function burn(address account, uint256 amount) public onlyOwner {
