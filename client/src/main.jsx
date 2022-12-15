@@ -9,7 +9,6 @@ import "./index.css";
 ReactDOM.render(
   <TransactionsProvider>
     <BoxContentProvider>
-    
     <App/>
     </BoxContentProvider>
   </TransactionsProvider>,
