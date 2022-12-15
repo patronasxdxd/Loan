@@ -1,14 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { AiFillPlayCircle } from "react-icons/ai";
-import { SiEthereum } from "react-icons/si";
-import { BsInfoCircle } from "react-icons/bs";
-// import '../css/cssBox'
-
 import { TransactionContext } from "../context/TransactionContext";
-import { shortenAddress } from "../utils/shortenAddress";
-import { Loader } from ".";
-// import '../js/jsBox'
-// import jsBox from "../js/jsBox";
 import {Helmet} from "react-helmet";
 
 

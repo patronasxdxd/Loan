@@ -101,61 +101,16 @@ export const TransactionsProvider = ({ children }) => {
     }
   };
 
-  // const sendTransaction = async () => {
-  //   try {
-  //     if (ethereum) {
-  //       const { addressTo, amount, keyword, message } = formData;
-  //       const transactionsContract = createEthereumContract();
-  //       const parsedAmount = ethers.utils.parseEther(amount);
-
-  //       await ethereum.request({
-  //         method: "eth_sendTransaction",
-  //         params: [{
-  //           from: currentAccount,
-  //           to: addressTo,
-  //           gas: "0x5208",
-  //           value: parsedAmount._hex,
-  //         }],
-  //       });
-
-  //       const transactionHash = await transactionsContract.addToBlockchain(addressTo, parsedAmount, message, keyword);
-
-  //       setIsLoading(true);
-  //       console.log(`Loading - ${transactionHash.hash}`);
-  //       await transactionHash.wait();
-  //       console.log(`Success - ${transactionHash.hash}`);
-  //       setIsLoading(false);
-
-  //       const transactionsCount = await transactionsContract.getTransactionCount();
-
-  //       setTransactionCount(transactionsCount.toNumber());
-  //       window.location.reload();
-  //     } else {
-  //       console.log("No ethereum object");
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-
-  //     throw new Error("No ethereum object");
-  //   }
-  // };
-  
   useEffect(() => {
     checkIfWalletIsConnect();
-    // checkIfTransactionsExists();
   }, [transactionCount]);
 
   return (
     <TransactionContext.Provider
       value={{
-        // transactionCount,
         connectWallet,
-        // transactions,
         currentAccount,
-        // isLoading,
-        // sendTransaction,
         handleChange,
-        // formData,
       }}
     >
       {children}

@@ -1,21 +1,8 @@
 import React, { useContext, useEffect } from "react";
-import { AiFillPlayCircle } from "react-icons/ai";
-import { SiEthereum } from "react-icons/si";
-import { BsInfoCircle } from "react-icons/bs";
-// import '../css/cssBox'
-
 import { TransactionContext } from "../context/TransactionContext";
-import { shortenAddress } from "../utils/shortenAddress";
 import { Loader } from ".";
-// import '../js/jsBox'
-// import jsBox from "../js/jsBox";
-import {Helmet} from "react-helmet";
 import { BoxContext } from "../context/BoxContext";
 import styles from "/Users/gilleszwijsen/loan/client/src/css/mystyle.module.css"
-
-
-
-const companyCommonStyles = "min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-gray-400 text-sm font-light text-white";
 
 const Input = ({ placeholder, name, type, value, handleChange }) => (
   <input
@@ -31,7 +18,7 @@ const Input = ({ placeholder, name, type, value, handleChange }) => (
 
 const Fund = () => {
   const { currentAccount, connectWallet } = useContext(TransactionContext);
-  const {  formDataState,formDataCount,handleChange,fund,isLoadingFund,createId,handleChangeFund,state,handleChangeState,getState,funded} = useContext(BoxContext);
+  const {  formDataState,formDataCount,handleChange,fund,isLoadingFund,createId,handleChangeFund,state,handleChangeState,getState,funded,noFunds} = useContext(BoxContext);
 
 
   const handleSubmit = (e) => {
@@ -63,13 +50,12 @@ const Fund = () => {
      <h2 className="text-white text-3xl text-base text-center mx-2">Fund  </h2>
      </div>
     <Input placeholder="enter the loan number" name="count" type="number" handleChange={handleChangeFund} />
-  
 
     <div className="h-[1px] w-full bg-gray-400 my-2" />
 
-    
-    
-    
+    {noFunds != ""
+    ? <div className={styles.shadowxd2}><h2 className="text-white text-3xl text-base text-center mx-2" >No patronasToken found, please request funds from faucet</h2></div> : ""}
+ 
 
     {funded != ""
     ? <h2 className="text-white text-base text-center mx-2">succesfully funded! {createId} </h2>:""}
@@ -120,16 +106,8 @@ const Fund = () => {
           Get State
         </button>
       )}
-
-
-      
-
-
   </div>
-
   </div>
-
-  
   );
 };
 

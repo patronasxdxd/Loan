@@ -43,6 +43,7 @@ export const BoxContentProvider = ({ children }) => {
 
   const [takenBool, settakenBool] = useState("");
   const [funded, setFunded] = useState("");
+  const [noFunds, setNoFunds] = useState("");
 
   const [currentAccount, setCurrentAccount] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -175,6 +176,7 @@ export const BoxContentProvider = ({ children }) => {
         console.log("No ethereum object");
       }
     } catch (error) {
+      setNoFunds(1);
       console.log(error);
 
       throw new Error("No ethereum object");
@@ -235,193 +237,6 @@ export const BoxContentProvider = ({ children }) => {
     }
   };
 
-
-  // const makeCards = async () => {
-  //   loaded = true;
-  //   try {
-  //     if (ethereum) {
-  //       const transactionsContract = createEthereumContract();
-
-  //       const availableTransactions = await transactionsContract.getAllTransactions();
-
-  //       const structuredTransactions = availableTransactions.map((transaction) => ({
-  //         // addressFrom: transaction.sender,
-  //         timestamp: new Date(transaction.timestamp.toNumber() * 1000).toLocaleString(),
-  //         message: transaction.value,
-  //         amount: transaction.amount.toNumber()
-  //       }));
-
-  //       //  console.log("here");
-
-  //       setStructArray(structuredTransactions);
-  //     } else {
-  //       console.log("Ethereum is not present");
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // const getAllTransactions = async () => {
-
-
-  //   try {
-  //     if (ethereum) {
-  //       const transactionsContract = createEthereumContract();
-
-  //       const availableTransactions = await transactionsContract.retrieve();
-
-
-  //       setboxValues(availableTransactions.toNumber());
-  //     } else {
-  //       console.log("Ethereum is not present");
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-  // const getProposalId = async () => {
-
-
-  //   try {
-  //     if (ethereum) {
-  //       const transactionsContract = createEthereumContract();
-  //       const govContract = createGovernorContract();
-
-  //       const availableTransactions = await transactionsContract.getProposal();
-  //       const state = await govContract.state(availableTransactions)
-
-
-  //       setProposalId(state);
-
-
-
-
-  //     } else {
-  //       console.log("Ethereum is not present");
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // const checkSate = async () => {
-
-
-  //   try {
-  //     if (ethereum) {
-  //       console.log("xd");
-
-
-
-
-
-  //     } else {
-  //       console.log("Ethereum is not present");
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // const getCurrentProposal = async () => {
-
-
-  //   try {
-  //     if (ethereum) {
-  //       const boxContract = createEthereumContract();
-
-  //       const availableTransactions = await boxContract.getProposal();
-
-
-  //       //setCurrentProposal(62568287157613061209260595334271840154113816132753167614645326);
-
-
-
-
-
-  //     } else {
-  //       console.log("Ethereum is not present");
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-
-
-
-  // const checkIfWalletIsConnect = async () => {
-  //   try {
-  //     if (!ethereum) return alert("Please install MetaMask.");
-
-  //     const accounts = await ethereum.request({ method: "eth_accounts" });
-
-  //     if (accounts.length) {
-  //       setCurrentAccount(accounts[0]);
-
-  //       if (!loaded) {
-  //         makeCards();
-  //       };
-  //       // getAllTransactions();
-  //       // getProposalId();
-  //       // getCurrentProposal();
-  //       //checkSate();
-  //     } else {
-  //       console.log("No accounts found");
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // checkIfWalletIsConnect();
-
-
-
-
-
-
-
-
-
-
-
-  // const checkIfProposalExists = async () => {
-  //   try {
-
-
-  //     if (ethereum) {
-  //       console.log("checking");
-  //       const boxContract = createEthereumContract();
-  //       const id = await boxContract.getProposal();
-  //       console.log(id);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-
-  //     throw new Error("No ethereum object");
-  //   }
-  // };
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // useEffect(() => {
-  //   checkIfProposalExists();
-  //   const interval = setInterval(() => getProposalId(), 1000);
-  // }, [proposalId]);
-
-
   return (
     <BoxContext.Provider
       value={{
@@ -443,7 +258,8 @@ export const BoxContentProvider = ({ children }) => {
         takenBool,
         funded,
         Mint,
-        received
+        received,
+        noFunds
 
       }}
     >

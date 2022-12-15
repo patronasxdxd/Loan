@@ -1,20 +1,9 @@
 import React, { useContext, useEffect } from "react";
-import { AiFillPlayCircle } from "react-icons/ai";
-import { SiEthereum } from "react-icons/si";
-import { BsInfoCircle } from "react-icons/bs";
-// import '../css/cssBox'
-
 import { TransactionContext } from "../context/TransactionContext";
-import { shortenAddress } from "../utils/shortenAddress";
 import { Loader } from ".";
-// import '../js/jsBox'
-// import jsBox from "../js/jsBox";
-import {Helmet} from "react-helmet";
 import { BoxContext } from "../context/BoxContext";
 import styles from "/Users/gilleszwijsen/loan/client/src/css/mystyle.module.css"
 
-
-const companyCommonStyles = "min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-gray-400 text-sm font-light text-white";
 
 const Input = ({ placeholder, name, type, value, handleChange,Mint,received}) => (
   <input
