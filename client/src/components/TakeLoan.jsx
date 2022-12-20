@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from "react";
-import { TransactionContext } from "../context/TransactionContext";
 import { Loader } from ".";
 import { BoxContext } from "../context/BoxContext";
 import styles from "/Users/gilleszwijsen/loan/client/src/css/mystyle.module.css"
@@ -18,8 +17,7 @@ const Input = ({ placeholder, name, type, value, handleChange,Mint,received}) =>
 );
 
 const TakeLoan = () => {
-  const { currentAccount, connectWallet } = useContext(TransactionContext);
-  const {  formDataState,formDataCount,handleChange,fund,isLoadingTaken,createId,handleChangeFund,state,handleChangeState,getState,takeLoan,takenBool,Mint,received} = useContext(BoxContext);
+  const {  formDataCount,isLoadingTaken,createId,handleChangeFund,takeLoan,takenBool,Mint,received} = useContext(BoxContext);
 
 
   const handleSubmit = (e) => {
@@ -41,9 +39,6 @@ const TakeLoan = () => {
   };
 
   
-
- 
-
  
   return (
 

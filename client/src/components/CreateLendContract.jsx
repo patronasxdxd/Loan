@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from "react";
-import { TransactionContext } from "../context/TransactionContext";
 import { Loader } from ".";
 import { BoxContext } from "../context/BoxContext";
 import styles from "/Users/gilleszwijsen/loan/client/src/css/mystyle.module.css"
@@ -17,7 +16,6 @@ const Input = ({ placeholder, name, type, value, handleChange }) => (
 );
 
 const CreateLendContract = () => {
-  const { currentAccount, connectWallet } = useContext(TransactionContext);
   const {  formDataLoan,handleChange,create,isLoading,createId} = useContext(BoxContext);
 
 

@@ -3,7 +3,6 @@ import { TransactionContext } from "../context/TransactionContext";
 import {Helmet} from "react-helmet";
 
 
-const companyCommonStyles = "min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-gray-400 text-sm font-light text-white";
 
 const Input = ({ placeholder, name, type, value, handleChange }) => (
   <input
@@ -18,7 +17,7 @@ const Input = ({ placeholder, name, type, value, handleChange }) => (
 );
 
 const house = () => {
-  const { currentAccount, connectWallet, handleChange, sendTransaction, formData, isLoading } = useContext(TransactionContext);
+  const {  sendTransaction, formData } = useContext(TransactionContext);
 
   const handleSubmit = (e) => {
     const { addressTo, amount, keyword, message } = formData;
