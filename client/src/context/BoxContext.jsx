@@ -29,7 +29,7 @@ const createTokenContract = () => {
 
 export const BoxContentProvider = ({ children }) => {
   const [formDataLoan, setformData] = useState({ loanAmount: "", feeAmount: "", collAmount: "", timestamp: "" });
-  const [formDataCount, setformDataCount] = useState({ count: ""});
+  const [formDataCount, setformDataCount] = useState({ count: "", amount: ""});
   const [formDataState, setformDataState] = useState({Count: ""});
 
   const [received, setReceived] = useState("");
@@ -207,18 +207,10 @@ export const BoxContentProvider = ({ children }) => {
   const takeLoan = async () => {
     try {
       if (ethereum) {
-        const { count } = formDataCount;
+        const { count,amount } = formDataCount;
         const transactionsContract = createLoanContract();
-        // const EthtokenContract = createTokenContract();
-
-
-        //  const approve = await EthtokenContract.approve(loanContract,10000);
-
         const fund = await transactionsContract.getState(count)   
-
-       console.log(fund);
-
-        const takeALoanAndAcceptLoanTerms = await transactionsContract.takeALoanAndAcceptLoanTerms(count,{value:1});
+        const takeALoanAndAcceptLoanTerms = await transactionsContract.takeALoanAndAcceptLoanTerms(count,{value:amount});
 
           setILoadingTaken(true);
          const fundReceipt = await takeALoanAndAcceptLoanTerms.wait(1)

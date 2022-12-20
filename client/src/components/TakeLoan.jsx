@@ -23,11 +23,11 @@ const TakeLoan = () => {
 
 
   const handleSubmit = (e) => {
-    const { count } = formDataCount;
+    const { count,amount } = formDataCount;
 
     e.preventDefault();
 
-    if (!count) return;
+    if (!count || !amount ) return;
 
     takeLoan();
   };
@@ -53,6 +53,8 @@ const TakeLoan = () => {
      <h2 className="text-white text-3xl text-base text-center mx-2"> Take Loan  </h2>
      </div>
     <Input placeholder="enter the loan number" name="count" type="number" handleChange={handleChangeFund} />
+    <Input placeholder="enter the loan Amount" name="amount" type="number" handleChange={handleChangeFund} />
+
     <div className="h-[1px] w-full bg-gray-400 my-2" />
 
     
